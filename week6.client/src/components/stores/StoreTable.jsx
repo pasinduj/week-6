@@ -1,5 +1,5 @@
 import { Component } from 'react';
-
+import './StoreTable.css';
 
 export class StoreTable extends Component {
 
@@ -20,9 +20,9 @@ export class StoreTable extends Component {
         return (
             <table className="table table-striped" aria-labelledby="tableLabel">
                 <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
+                    <tr >
+                        <th className="header">Id</th>
+                        <th className="header">Name</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -30,9 +30,9 @@ export class StoreTable extends Component {
                 <tbody>
                     {stores.map(store =>
                         <tr key={store.id}>
-                            <td>{store.id}</td>
-                            <td>{store.name}</td>
-                            <td><button>Update Store</button></td>
+                            <td className="record" >{store.id}</td>
+                            <td className="record"  >{store.name}</td>
+                            <td ><button>Update Store</button></td>
                             <td><button>Delete Store</button></td>
                         </tr>
                     )}
@@ -48,7 +48,11 @@ export class StoreTable extends Component {
 
         return (
             <div>
-                <button onClick={this.addStores}>Add Stores</button>
+                <input id="storeName" name="storeName"
+                    type="text"
+                    placeholder="Store Name"                                      
+                />
+                <button onClick={this.addStores}>Add Store</button>
                 <h1 id="tableLabel">Stores</h1>
                 {contents}
             </div>
@@ -57,19 +61,21 @@ export class StoreTable extends Component {
 
     async addStores() {
 
-        
+        let sName = document.getElementById('storeName').value;
 
+        console.log(sName);
+       
         const data = await fetch(
             'stores', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 id: 0,
-                name: 'UK, London'
+                name: sName
             })
         }).then((data) => data.json());
 
-        
+        console.log(data); 
 
         this.populateStoresData();
     }
